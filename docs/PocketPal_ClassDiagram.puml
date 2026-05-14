@@ -1,0 +1,262 @@
+@startuml PocketPal_ClassDiagram
+
+title PocketPal (KidBank) — Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 13
+skinparam classHeaderBackgroundColor #0F2B47
+skinparam classHeaderFontColor #FFFFFF
+skinparam classFontColor #1E293B
+skinparam classBackgroundColor #F0F6FC
+skinparam classBorderColor #2E75B6
+skinparam arrowColor #1F4E79
+skinparam noteBackgroundColor #FEF9C3
+skinparam noteBorderColor #CA8A04
+skinparam packageBackgroundColor #EFF6FF
+skinparam packageBorderColor #93C5FD
+skinparam shadowing false
+
+package "model" {
+
+  abstract class User {
+    # username : String
+    # fullName : String
+    # role : String
+    --
+    + getUsername() : String
+    + getFullName() : String
+    + getRole() : String
+    + {abstract} toJson() : JSONObject
+  }
+
+  class Parent {
+    - passwordHash : String
+    - childUsernames : List<String>
+    --
+    + addChild(childUsername : String)
+    + removeChild(childUsername : String)
+    + getChildUsernames() : List<String>
+    + {static} fromJson(obj) : Parent
+    + toJson() : JSONObject
+  }
+
+  class Child {
+    - pinHash : String
+    - parentUsername : String
+    - currentAccount : Account
+    - savingsAccount : Account
+    --
+    + getCurrentAccount() : Account
+    + getSavingsAccount() : Account
+    + {static} fromJson(obj) : Child
+    + toJson() : JSONObject
+  }
+
+  class Account {
+    - accountId : String
+    - type : String
+    - balance : double
+    --
+    + credit(amount : double)
+    + debit(amount : double)
+    + getBalance() : double
+    + {static} fromJson(obj) : Account
+    + toJson() : JSONObject
+  }
+
+  class Task {
+    - taskId : String
+    - title : String
+    - description : String
+    - rewardAmount : double
+    - parentUsername : String
+    - childUsername : String
+    - status : Status
+    - createdAt : LocalDateTime
+    --
+    + markCompletedByChild()
+    + approve()
+    + reject()
+    + {static} fromJson(obj) : Task
+    + toJson() : JSONObject
+  }
+
+  enum "Task.Status" as TaskStatus {
+    PENDING
+    COMPLETED_BY_CHILD
+    APPROVED
+    REJECTED
+  }
+
+  class SavingsGoal {
+    - goalId : String
+    - name : String
+    - targetAmount : double
+    - savedAmount : double
+    - childUsername : String
+    - completed : boolean
+    --
+    + contribute(amount : double)
+    + getProgressPercent() : double
+    + getRemaining() : double
+    + {static} fromJson(obj) : SavingsGoal
+    + toJson() : JSONObject
+  }
+
+  class Transaction {
+    - transactionId : String
+    - accountId : String
+    - type : Type
+    - amount : double
+    - balanceAfter : double
+    - note : String
+    - timestamp : LocalDateTime
+    --
+    + isCredit() : boolean
+    + getFormattedDate() : String
+    + {static} fromJson(obj) : Transaction
+    + toJson() : JSONObject
+  }
+
+  enum "Transaction.Type" as TxType {
+    DEPOSIT
+    WITHDRAWAL
+    TASK_REWARD
+    GOAL_TRANSFER
+    ALLOWANCE
+  }
+}
+
+package "service" {
+  class BankService <<Singleton>> {
+    - users : Map<String, User>
+    - tasks : List<Task>
+    - goals : List<SavingsGoal>
+    - {static} instance : BankService
+    --
+    + {static} getInstance() : BankService
+    + authenticateParent(username, password) : Parent
+    + authenticateChild(username, pin) : Child
+    + registerParent(username, fullName, password) : Parent
+    + createChild(parentUsername, childUsername, fullName, pin, initialDeposit) : Child
+    + deposit(childUsername, accountType, amount, note)
+    + withdraw(childUsername, accountType, amount, note)
+    + createTask(parentUsername, childUsername, title, desc, reward) : Task
+    + markTaskComplete(taskId)
+    + approveTask(taskId)
+    + rejectTask(taskId)
+    + createGoal(childUsername, name, targetAmount, initialContrib) : SavingsGoal
+    + contributeToGoal(goalId, amount)
+    + getTransactions(accountId) : List<Transaction>
+    + getTasksForChild(childUsername) : List<Task>
+    + getTasksForParent(parentUsername) : List<Task>
+    + getGoalsForChild(childUsername) : List<SavingsGoal>
+    + getChildren(parentUsername) : List<Child>
+  }
+}
+
+package "storage" {
+  class JsonStorage <<utility>> {
+    --
+    + {static} initialise()
+    + {static} loadUsers() : Map<String, User>
+    + {static} saveUsers(users)
+    + {static} loadTasks() : List<Task>
+    + {static} saveTasks(tasks)
+    + {static} loadGoals() : List<SavingsGoal>
+    + {static} saveGoals(goals)
+    + {static} loadTransactions(accountId) : List<Transaction>
+    + {static} saveTransaction(tx : Transaction)
+  }
+}
+
+package "util" {
+  class SecurityUtil <<utility>> {
+    --
+    + {static} hash(plainText : String) : String
+    + {static} verify(plainText : String, hash : String) : boolean
+    + {static} isValidPassword(password : String) : boolean
+    + {static} isValidPin(pin : String) : boolean
+  }
+}
+
+package "ui (screens)" {
+  class KidBankApp << JavaFX App >>
+  class WelcomeScreen
+  class LoginScreen
+  class RegisterParentScreen
+  class ParentDashboard
+  class ChildDashboard
+  class CreateChildScreen
+  class ParentTaskScreen
+  class ChildTaskScreen
+  class SavingsGoalScreen
+  class DepositWithdrawScreen
+  class TransactionHistoryScreen
+  class AnalyticsScreen
+}
+
+' Inheritance
+User <|-- Parent
+User <|-- Child
+
+' Composition
+Child "1" *-- "1" Account : currentAccount >
+Child "1" *-- "1" Account : savingsAccount >
+
+' Enum usage
+Task        ..> TaskStatus : uses >
+Transaction ..> TxType     : uses >
+
+' Service dependencies
+BankService ..> JsonStorage  : persists via >
+BankService ..> SecurityUtil : hashes via >
+BankService "1" o-- "*" User        : users >
+BankService "1" o-- "*" Task        : tasks >
+BankService "1" o-- "*" SavingsGoal : goals >
+BankService     ..>     Transaction : records >
+
+' UI → Service
+KidBankApp            ..> BankService
+WelcomeScreen         ..> BankService
+LoginScreen           ..> BankService
+RegisterParentScreen  ..> BankService
+ParentDashboard       ..> BankService
+ChildDashboard        ..> BankService
+CreateChildScreen     ..> BankService
+ParentTaskScreen      ..> BankService
+ChildTaskScreen       ..> BankService
+SavingsGoalScreen     ..> BankService
+DepositWithdrawScreen ..> BankService
+TransactionHistoryScreen ..> BankService
+AnalyticsScreen       ..> BankService
+
+note right of BankService
+  Singleton pattern.
+  All UI screens go through
+  BankService only — never
+  touch JsonStorage directly.
+end note
+
+note bottom of JsonStorage
+  Persists 4 JSON files:
+  users.json, transactions.json,
+  tasks.json, goals.json
+  No database required.
+end note
+
+note right of Task
+  State machine:
+  PENDING
+    -> COMPLETED_BY_CHILD
+    -> APPROVED  (reward credited)
+    -> REJECTED  (back to PENDING)
+end note
+
+note right of Child
+  Owns two Account instances:
+  username_current (spending)
+  username_savings (savings)
+end note
+
+@enduml

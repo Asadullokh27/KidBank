@@ -1,0 +1,26 @@
+[
+  {
+    "role": "PARENT",
+    "children": ["azmun"],
+    "fullName": "Asadulloh Tojiyev",
+    "passwordHash": "2d880c5fb7730aadf65668a9f708320147fdb5a75249895b590cd90a55c7028a",
+    "username": "usomabeenladin"
+  },
+  {
+    "role": "CHILD",
+    "pinHash": "41c991eb6a66242c0454191244278183ce58cf4a6bcd372f799e4b9cc01886af",
+    "savingsAccount": {
+      "accountId": "azmun_savings",
+      "balance": 0,
+      "type": "Savings"
+    },
+    "parentUsername": "usomabeenladin",
+    "fullName": "Sardor",
+    "currentAccount": {
+      "accountId": "azmun_current",
+      "balance": 25,
+      "type": "Current"
+    },
+    "username": "azmun"
+  }
+]

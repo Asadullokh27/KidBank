@@ -1,0 +1,20 @@
+[
+  {
+    "accountId": "azmun_current",
+    "note": "Initial deposit",
+    "amount": 10,
+    "balanceAfter": 10,
+    "type": "DEPOSIT",
+    "transactionId": "5a431657-0056-4a76-9907-ea6f9a2f507f",
+    "timestamp": "2026-05-11T13:31:00"
+  },
+  {
+    "accountId": "azmun_current",
+    "note": "Task reward: go to supermarket",
+    "amount": 15,
+    "balanceAfter": 25,
+    "type": "TASK_REWARD",
+    "transactionId": "b6644fb4-a5e1-462a-8149-4acd5740c0ff",
+    "timestamp": "2026-05-14T18:12:49"
+  }
+]
