@@ -9,10 +9,12 @@ import java.time.format.DateTimeFormatter;
  * Represents a chore/task that a parent assigns to a child.
  * A task progresses through: PENDING → COMPLETED_BY_CHILD → APPROVED | REJECTED.
  */
+// Task sinfi — ota-ona tomonidan beriladigan vazifa. Vazifa holatlari enum bilan ifodalanadi.
+// Bu yerda vazifa yaratilib, farzand belgilab bo'lgach uni bajaradi, so'ng ota tekshiradi (tasdiqlash/rad qilish).
 public class Task {
 
     private static final DateTimeFormatter FMT =
-        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     /** Lifecycle states of a task. */
     public enum Status {
@@ -41,6 +43,7 @@ public class Task {
      * @param parentUsername creator parent
      * @param childUsername  assigned child
      */
+    // Konstruktor: yangi Task PENDING holatda yaratiladi; reward >= 0 bo'lishi kerak.
     public Task(String taskId, String title, String description,
                 double rewardAmount, String parentUsername, String childUsername) {
         if (rewardAmount < 0) throw new IllegalArgumentException("Reward cannot be negative.");
@@ -55,6 +58,7 @@ public class Task {
     }
 
     /** Private constructor for deserialisation. */
+    // Deserializatsiya uchun maxfiy konstruktor — vaqt va holat tashqi JSON dan olinadi.
     private Task(String taskId, String title, String description,
                  double rewardAmount, String parentUsername, String childUsername,
                  Status status, LocalDateTime createdAt) {
@@ -71,6 +75,7 @@ public class Task {
     // ── State transitions ────────────────────────────────────────────────────
 
     /** Child marks the task as done. */
+    // markCompletedByChild: faqat PENDING bo'lsa child uni bajarildi deb belgilashi mumkin.
     public void markCompletedByChild() {
         if (status != Status.PENDING)
             throw new IllegalStateException("Only PENDING tasks can be marked complete.");
@@ -78,6 +83,7 @@ public class Task {
     }
 
     /** Parent approves the completed task. */
+    // approve: faqat child tomonidan COMPLETED_BY_CHILD holatida ota tomonidan tasdiqlanadi.
     public void approve() {
         if (status != Status.COMPLETED_BY_CHILD)
             throw new IllegalStateException("Only COMPLETED_BY_CHILD tasks can be approved.");
@@ -85,6 +91,7 @@ public class Task {
     }
 
     /** Parent rejects the completed task (returns to PENDING). */
+    // reject: ota rad etsa vazifa yana PENDING ga qaytadi.
     public void reject() {
         if (status != Status.COMPLETED_BY_CHILD)
             throw new IllegalStateException("Only COMPLETED_BY_CHILD tasks can be rejected.");
@@ -112,6 +119,7 @@ public class Task {
      *
      * @return JSON representation
      */
+    // toJson: task obyektini JSON ga o'girish — holat va vaqtni string sifatida saqlaydi.
     public JSONObject toJson() {
         JSONObject obj = new JSONObject();
         obj.put("taskId",         taskId);
@@ -131,16 +139,17 @@ public class Task {
      * @param obj JSON source
      * @return reconstructed Task
      */
+    // fromJson: JSON dan Task ni qayta tiklaydi, status va yaratilgan vaqtni ham o'qiydi.
     public static Task fromJson(JSONObject obj) {
         return new Task(
-            obj.getString("taskId"),
-            obj.getString("title"),
-            obj.optString("description", ""),
-            obj.getDouble("rewardAmount"),
-            obj.getString("parentUsername"),
-            obj.getString("childUsername"),
-            Status.valueOf(obj.getString("status")),
-            LocalDateTime.parse(obj.getString("createdAt"), FMT)
+                obj.getString("taskId"),
+                obj.getString("title"),
+                obj.optString("description", ""),
+                obj.getDouble("rewardAmount"),
+                obj.getString("parentUsername"),
+                obj.getString("childUsername"),
+                Status.valueOf(obj.getString("status")),
+                LocalDateTime.parse(obj.getString("createdAt"), FMT)
         );
     }
 

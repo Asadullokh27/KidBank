@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Represents a parent user who manages child accounts and tasks.
  */
+// Parent sinfi — ota-ona. Parol hash va uning bog'langan bolalari ro'yxati mavjud.
 public class Parent extends User {
 
     /** Hashed password (SHA-256 hex). */
@@ -24,6 +25,7 @@ public class Parent extends User {
      * @param fullName     display name
      * @param passwordHash SHA-256 hex of the parent's password
      */
+    // Konstruktor: parent yaratilganda passwordHash beriladi va bo'sh children list yaratiladi.
     public Parent(String username, String fullName, String passwordHash) {
         super(username, fullName, "PARENT");
         this.passwordHash = passwordHash;
@@ -37,6 +39,7 @@ public class Parent extends User {
      *
      * @param childUsername the child's username
      */
+    // addChild: agar bolalar ro'yxatida bo'lmasa, yangi child username qo'shiladi.
     public void addChild(String childUsername) {
         if (!childUsernames.contains(childUsername)) {
             childUsernames.add(childUsername);
@@ -48,6 +51,7 @@ public class Parent extends User {
      *
      * @param childUsername the child's username
      */
+    // removeChild: ro'yxatdan o'chirish.
     public void removeChild(String childUsername) {
         childUsernames.remove(childUsername);
     }
@@ -77,11 +81,12 @@ public class Parent extends User {
      * @param obj JSON source
      * @return reconstructed Parent
      */
+    // fromJson: JSON dan Parent ni tiklaydi va agar "children" massivi bo'lsa uni ro'yxatga o'tkazadi.
     public static Parent fromJson(JSONObject obj) {
         Parent p = new Parent(
-            obj.getString("username"),
-            obj.getString("fullName"),
-            obj.getString("passwordHash")
+                obj.getString("username"),
+                obj.getString("fullName"),
+                obj.getString("passwordHash")
         );
         JSONArray arr = obj.optJSONArray("children");
         if (arr != null) {

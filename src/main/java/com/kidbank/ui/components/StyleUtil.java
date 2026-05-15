@@ -10,10 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-/**
- * Central palette, widget factory and animation helpers for PocketPal.
- * Upgraded: richer gradients, smooth hover animations, polished inputs.
- */
+// bu faylning maqsadi UI komponentlari uchun standartlashtirilgan stillar va yordamchi metodlarni taqdim etishdir.
+
 public final class StyleUtil {
 
     // ── Palette ───────────────────────────────────────────────────────────────

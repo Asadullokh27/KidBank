@@ -14,6 +14,10 @@ import javafx.scene.shape.Circle;
 
 import java.util.List;
 
+
+//WelcomeScreen, foydalanuvchi dasturga kirganda ko'radigan ekran.
+
+
 public class WelcomeScreen {
 
     public static Scene build() {

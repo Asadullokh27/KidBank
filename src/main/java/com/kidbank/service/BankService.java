@@ -18,6 +18,13 @@ public class BankService {
 
     // ── In-memory state ──────────────────────────────────────────────────────
 
+
+    //bu yerda foydalanuvchilar, vazifalar va tejash maqsadlari uchun xotira xaritasi va ro'yxatlari mavjud.
+    // BankService yuklanganda barcha ma'lumotlarni JsonStorage dan yuklaydi va o'z xotirasida saqlaydi.
+
+    //Nima uchun private? Chunki bu ma'lumotlarga faqat BankService orqali kirish kerak,
+    // to'g'ridan-to'g'ri JsonStorage ga emas. Bu ma'lumot xavfsizligini ta'minlaydi.
+
     /** All users keyed by username. */
     private Map<String, User> users;
 
@@ -30,6 +37,11 @@ public class BankService {
     // ── Singleton ────────────────────────────────────────────────────────────
 
     private static BankService instance;
+
+
+//bu joyda Singleton pattern ishlatilgan, ya'ni BankService bitta servis ishlatilishi uchun.
+    //nima uchun? Chunki biz xohlaymizki, barcha UI komponentlari va operatsiyalar bir xil ma'lumotlar to'plami bilan ishlasin,
+    // va har bir BankService yaratish ma'lumotlarni qayta yuklash va xotira kop joy egalanishi yani wasteni oshiradi.
 
     /** Returns the singleton service instance, loading data on first call. */
     public static BankService getInstance() {
@@ -46,7 +58,10 @@ public class BankService {
         goals = JsonStorage.loadGoals();
     }
 
-    // ── Authentication ───────────────────────────────────────────────────────
+    // ── Authentication ──
+
+//bu yerda ota-ona va bola uchun alohida autentifikatsiya funksiyalari bor.
+
 
     /**
      * Authenticates a parent by username and password.
@@ -143,6 +158,10 @@ public class BankService {
 
     // ── Deposit & Withdrawal ─────────────────────────────────────────────────
 
+
+    //bu yerda bolalarning hisob raqamlariga pul qo'yish va pul yechish funksiyalari bor.
+
+
     /**
      * Deposits money into a child's account.
      *
@@ -182,6 +201,11 @@ public class BankService {
     }
 
     // ── Tasks ────────────────────────────────────────────────────────────────
+
+
+    //bu yerda vazifalar yaratish, bajarilgan vazifalarni tasdiqlash yoki rad etish funksiyalari bor.
+
+
 
     /**
      * Creates a new task and assigns it to a child.
@@ -247,6 +271,12 @@ public class BankService {
 
     // ── Savings Goals ────────────────────────────────────────────────────────
 
+
+
+    //bu yerda bolalar uchun tejash maqsadlari yaratish va ularga pul qo'shish funksiyalari bor.
+
+
+
     /**
      * Creates a new savings goal for a child.
      *
@@ -294,6 +324,13 @@ public class BankService {
     }
 
     // ── Queries ──────────────────────────────────────────────────────────────
+
+
+
+    //bu yerda hisob raqamlaridagi tranzaksiyalarni ko'rish, bolalarga tayinlangan vazifalarni ko'rish,
+    // tejash maqsadlarini ko'rish va ota-onalarga bog'langan bolalarni ko'rish funksiyalari bor.
+
+
 
     /**
      * Returns all transactions for a given account, newest first.
@@ -366,7 +403,15 @@ public class BankService {
         return users.containsKey(username);
     }
 
+
+
     // ── Internal helpers ─────────────────────────────────────────────────────
+
+
+    //bu yerda yangi foydalanuvchi yaratishda username ni tekshirish,
+    // ota-ona va bola obyektlarini olish, vazifa va maqsadlarni olish, hisob turini tanlash va tranzaksiya yozish funksiyalari bor.
+
+
 
     private void validateNewUsername(String username) {
         if (username == null || username.isBlank())

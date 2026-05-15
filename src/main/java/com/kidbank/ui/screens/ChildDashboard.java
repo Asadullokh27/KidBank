@@ -19,6 +19,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+//bu ChildDashboard yani bola dashboardi, unda bolalar o'z hisob-kitoblarini,
+//vazifalarini va maqsadlarini boshqarishlari mumkin.
+
 public class ChildDashboard {
 
     public static Scene build(Child child) {
@@ -68,6 +71,9 @@ public class ChildDashboard {
                 StyleUtil.statCard("Goal Progress",
                         goalText(c), "#7C5CFF", "#5B21B6")
         );
+
+
+        //togrisini etsam animatsiyani yoqtiraman shuning uchun karuselni qoshdim.
 
         FinanceCarousel carousel = new FinanceCarousel(List.of(
                 new FinanceCarousel.CarouselSlide(
@@ -128,6 +134,8 @@ public class ChildDashboard {
         return new Scene(root, KidBankApp.APP_WIDTH, KidBankApp.APP_HEIGHT);
     }
 
+
+    //xop bu joyda maqsadni ko'rsatish uchun yordamchi funksiya bor
     private static String goalText(Child c) {
         double total = c.getSavingsAccount().getBalance();
         return total > 0 ? "£" + String.format("%.2f", total) : "Start saving";

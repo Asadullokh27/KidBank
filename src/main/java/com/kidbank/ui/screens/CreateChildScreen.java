@@ -14,6 +14,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+
+//bu CreateChildScreen, ota-ona yangi bola hisobini yaratishi mumkin bo'lgan ekran.
+
 public class CreateChildScreen {
 
     public static Scene build(Parent parent) {
@@ -91,6 +94,7 @@ public class CreateChildScreen {
             return;
         }
         double balance = 0.0;
+
         try {
             if (!balStr.isEmpty()) balance = Double.parseDouble(balStr);
             if (balance < 0) throw new NumberFormatException();

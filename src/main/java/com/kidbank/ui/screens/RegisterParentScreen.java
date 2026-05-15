@@ -14,6 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 
+
+//bu RegisterParentScreen, ota-ona yangi hisob yaratishi mumkin bo'lgan ekran.
+
 public class RegisterParentScreen {
 
     public static Scene build() {

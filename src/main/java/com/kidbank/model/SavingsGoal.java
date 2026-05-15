@@ -6,6 +6,7 @@ import org.json.JSONObject;
  * Represents a savings goal set by a child.
  * Tracks target amount and current progress.
  */
+// SavingsGoal — bolalar o'zlari uchun maqsad qo'yishi uchun; target va hozirgi saqlangan miqdor saqlanadi.
 public class SavingsGoal {
 
     private final String goalId;
@@ -23,6 +24,7 @@ public class SavingsGoal {
      * @param targetAmount  amount to reach (> 0)
      * @param childUsername owning child
      */
+    // Konstruktor: yangi goal yaratganda savedAmount 0 ga teng va completed false bo'ladi.
     public SavingsGoal(String goalId, String name, double targetAmount, String childUsername) {
         if (targetAmount <= 0)
             throw new IllegalArgumentException("Target amount must be positive.");
@@ -53,6 +55,7 @@ public class SavingsGoal {
      * @param amount amount to contribute (> 0)
      * @throws IllegalArgumentException if amount is invalid
      */
+    // contribute: maqsadga hissa qo'shadi; agar summedAmount target dan katta bo'lsa, u cap qilinadi va completed true bo'ladi.
     public void contribute(double amount) {
         if (amount <= 0) throw new IllegalArgumentException("Contribution must be positive.");
         savedAmount += amount;
@@ -67,11 +70,13 @@ public class SavingsGoal {
      *
      * @return percentage as double
      */
+    // getProgressPercent: hozirgi progress foizini qaytaradi (0–100).
     public double getProgressPercent() {
         return Math.min(100.0, (savedAmount / targetAmount) * 100.0);
     }
 
     /** Returns the remaining amount needed to reach the goal. */
+    // getRemaining: maqsadga yetish uchun qolgan pulni beradi.
     public double getRemaining() {
         return Math.max(0.0, targetAmount - savedAmount);
     }
@@ -94,6 +99,7 @@ public class SavingsGoal {
      *
      * @return JSON representation
      */
+    // toJson: goalni JSON ga o'girish.
     public JSONObject toJson() {
         JSONObject obj = new JSONObject();
         obj.put("goalId",        goalId);
@@ -111,20 +117,23 @@ public class SavingsGoal {
      * @param obj JSON source
      * @return reconstructed SavingsGoal
      */
+    // fromJson: JSON dan SavingsGoal ni tiklaydi.
     public static SavingsGoal fromJson(JSONObject obj) {
         return new SavingsGoal(
-            obj.getString("goalId"),
-            obj.getString("name"),
-            obj.getDouble("targetAmount"),
-            obj.getDouble("savedAmount"),
-            obj.getString("childUsername"),
-            obj.getBoolean("completed")
+                obj.getString("goalId"),
+                obj.getString("name"),
+                obj.getDouble("targetAmount"),
+                obj.getDouble("savedAmount"),
+                obj.getString("childUsername"),
+                obj.getBoolean("completed")
         );
     }
 
+
+    // bu yerda esa goal ni string formatida chiroyli ko'rinishda qaytarish uchun toString methodi yozilgan.
     @Override
     public String toString() {
         return String.format("Goal[%s] '%s' %.0f%% (£%.2f/£%.2f)",
-            goalId, name, getProgressPercent(), savedAmount, targetAmount);
+                goalId, name, getProgressPercent(), savedAmount, targetAmount);
     }
 }

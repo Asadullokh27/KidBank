@@ -12,6 +12,11 @@ import javafx.scene.layout.*;
 
 import java.util.List;
 
+
+//Tranzaksiyalarni ko'rsatadigan ekran.
+//Bu yerda bolalar o'z sarf-xarajatlari va tejash hisoblaridagi barcha tranzaksiyalarni ko'rishlari mumkin.
+
+
 public class TransactionHistoryScreen {
 
     public static Scene build(Child child, Parent parent) {

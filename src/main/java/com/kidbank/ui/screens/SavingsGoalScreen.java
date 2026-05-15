@@ -12,6 +12,10 @@ import javafx.scene.layout.*;
 
 import java.util.List;
 
+
+
+//bu SavingsGoalScreen, bolalar o'z tejash maqsadlarini yaratishi va boshqarishi mumkin bo'lgan ekran.
+
 public class SavingsGoalScreen {
 
     public static Scene build(Child child) {

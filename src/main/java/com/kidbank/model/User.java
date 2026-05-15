@@ -6,6 +6,8 @@ import org.json.JSONObject;
  * Abstract base class representing a KidBank user.
  * Both Parent and Child extend this class.
  */
+// Bu umumiy User sinfi — Parent va Child undan meros oladi.
+// Har bir userda username, display name va role mavjud.
 public abstract class User {
 
     /** Unique username used for login. */
@@ -24,6 +26,7 @@ public abstract class User {
      * @param fullName display name
      * @param role     "PARENT" or "CHILD"
      */
+    // Konstruktor: foydalanuvchi yaratilganda username, fullName va role o'rnatiladi.
     public User(String username, String fullName, String role) {
         this.username = username;
         this.fullName = fullName;
@@ -45,6 +48,7 @@ public abstract class User {
      *
      * @return JSON representation
      */
+    // Har bir subklass (Parent/Child) o'z JSON serializatsiyasini beradi.
     public abstract JSONObject toJson();
 
     @Override

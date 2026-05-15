@@ -13,6 +13,13 @@ import javafx.util.Duration;
 
 import java.util.List;
 
+
+//Karusel qismi bu FinanceCarousel, unda bolalar va ota-onalar
+// uchun moliyaviy maslahatlar va yangiliklar ko'rsatiladi.
+//Angular loyihalarimda ham kop ishlatganman, javafxda ham
+// shunga o'xshash tarzda amalga oshirdim
+
+
 public class FinanceCarousel extends StackPane {
 
     private int index = 0;

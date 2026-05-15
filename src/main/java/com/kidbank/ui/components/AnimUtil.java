@@ -7,8 +7,17 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
+
+
+//bu faylning maqsadi animatsiyalarni boshqarish uchun yordamchi metodlarni taqdim etishdir.
+//Bu yordamchi klass UI dizaynini yanada jonli va interaktiv qilishga yordam beradi.
+
 public final class AnimUtil {
     private AnimUtil() {}
+
+
+    //fadeInUp metodi berilgan Node elementini animatsiya bilan ko'rsatarkan.
+    //shaxsan man uchun bu eng yoqtirgan animatsiya turim
 
     public static void fadeInUp(Node node, double fromY, int ms) {
         node.setOpacity(0);
@@ -24,6 +33,10 @@ public final class AnimUtil {
 
         new ParallelTransition(fade, move).play();
     }
+
+
+    //bu esa hamma bilgan hover animatsiyasi, ortiqcha tanishtirishga hojat yo'q
+
 
     public static void hoverScale(Node node) {
         ScaleTransition up = new ScaleTransition(Duration.millis(140), node);

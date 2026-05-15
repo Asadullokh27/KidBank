@@ -15,7 +15,16 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+
+//bu faylda child va parent uchun analytics screen lar bor. Bu ekranlarda charts va insights lar boladi.
+// Charts lar child ning spending, earning, saving trendlarini korsatadi.
+
 public class AnalyticsScreen {
+
+
+    //buildForChild va buildForParent methodlari orqali child va parent
+    // uchun alohida analytics screen lar quriladi
 
     public static Scene buildForChild(Child child) {
         return buildScene(child, null);

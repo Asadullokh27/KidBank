@@ -9,6 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+
+//bu DepositWithdrawScreen, pul o'tkazish uchun ekran.
+//Bu ekran bolalarning hisoblari o'rtasida pul o'tkazish uchun ishlatiladi.
+
 public class DepositWithdrawScreen {
 
     public static Scene build(Child child, Parent parent, String defaultAcct) {
@@ -106,6 +110,9 @@ public class DepositWithdrawScreen {
 
         return new Scene(root, KidBankApp.APP_WIDTH, KidBankApp.APP_HEIGHT);
     }
+
+
+    //bu joyda pul o'tkazish yoki yechib olish jarayoni amalga oshiriladi.
 
     private static void handleTransaction(Child child, Parent parent,
                                           boolean isDeposit, String acctType,

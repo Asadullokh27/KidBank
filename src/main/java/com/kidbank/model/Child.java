@@ -6,6 +6,7 @@ import org.json.JSONObject;
  * Represents a child user who earns, saves and spends virtual money.
  * Each Child has a Current Account and a Savings Account.
  */
+// Child sinfi — bolalar uchun. Har bir bolada PIN hash, onaning username'i va ikkita Account (current va savings) bor.
 public class Child extends User {
 
     /** 4-digit PIN stored as a hash. */
@@ -28,6 +29,8 @@ public class Child extends User {
      * @param pinHash        SHA-256 hex of the 4-digit PIN
      * @param parentUsername owning parent's username
      */
+    // Konstruktor: Child yaratganda PIN hash va parentUsername beriladi,
+    // hamda hozirgi va tejash hisoblari 0.0 bilan yaratiladi.
     public Child(String username, String fullName, String pinHash, String parentUsername) {
         super(username, fullName, "CHILD");
         this.pinHash        = pinHash;
@@ -65,12 +68,13 @@ public class Child extends User {
      * @param obj JSON source
      * @return reconstructed Child
      */
+    // fromJson: JSON dan qayta Child obyektini tiklaydi; agar account obyektlari JSON da bo'lsa ularni ham o'qiydi.
     public static Child fromJson(JSONObject obj) {
         Child c = new Child(
-            obj.getString("username"),
-            obj.getString("fullName"),
-            obj.getString("pinHash"),
-            obj.getString("parentUsername")
+                obj.getString("username"),
+                obj.getString("fullName"),
+                obj.getString("pinHash"),
+                obj.getString("parentUsername")
         );
         if (obj.has("currentAccount")) {
             c.currentAccount = Account.fromJson(obj.getJSONObject("currentAccount"));

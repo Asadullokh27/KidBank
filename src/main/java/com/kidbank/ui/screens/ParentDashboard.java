@@ -25,6 +25,11 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+
+//bu ParentDashboard, ota-onalar uchun mo'ljallangan boshqaruv paneli bo'lib,
+//unda ular o'z farzandlarini, vazifalarini, tasdiqlashlarni va tezkor bank amallarini boshqarishlari mumkin.
+
+
 public class ParentDashboard {
 
     public static Scene build(Parent parent) {

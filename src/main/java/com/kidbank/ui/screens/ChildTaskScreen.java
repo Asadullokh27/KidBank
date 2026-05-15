@@ -19,6 +19,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+
+//bu ChildTaskScreen, bola o'z vazifalarini ko'rishi va boshqarishi mumkin bo'lgan ekran.
+
 public class ChildTaskScreen {
 
     public static Scene build(Child child) {

@@ -18,6 +18,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
+
+//bu LoginScreen, ota-ona va bola uchun umumiy login ekranidir.
+//Ular o'z foydalanuvchi nomlari va parollarini kiritib tizimga kirishlari mumkin.
+
+
 public class LoginScreen {
 
     public static Scene buildParentLogin() {
